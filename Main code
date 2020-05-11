@@ -1,0 +1,61 @@
+import random
+import string
+
+command = input("Type 'play' to play the game, 'exit' to quit: > ")
+
+def hangman():
+
+    print("""H A N G M A N""")
+    words = ['python', 'java', 'kotlin', 'javascript']
+    comp_choice = random.choice(words)
+    dash = '-' * (len(comp_choice))
+    solved_word = list(dash)
+    guessed_letters = []
+
+    attempts = 0
+
+    while attempts < 8:
+        print()
+        print(*solved_word, sep="")
+        if '-' not in solved_word:
+            break
+        my_choice = input('Input a letter: ')
+        if len(my_choice) == 1:
+            if my_choice in string.ascii_lowercase:
+                if my_choice in comp_choice:
+                    if my_choice in guessed_letters:
+                        print("You already typed this letter")
+                    for i in range(len(comp_choice)):
+                        if comp_choice[i] == my_choice:
+                            solved_word[i] = my_choice
+                            guessed_letters.append(my_choice)
+                    i += 1
+                else:
+                    if my_choice in guessed_letters:
+                        print("You already typed this letter")
+                    else:
+                        print("No such letter in the word")
+                        guessed_letters.append(my_choice)
+                        attempts += 1
+            else:
+                print("It is not an ASCII lowercase letter")
+        else:
+            print("You should print a single letter")
+
+    if '-' not in solved_word:
+        print("You guessed the word!")
+        print("You survived!")
+        command = input("Type 'play' to play the game, 'exit' to quit: > ")
+    else:
+        print("You are hanged!")
+        command = input("Type 'play' to play the game, 'exit' to quit: > ")
+
+
+while command != 'play' and command != 'exit':
+    command = input("Type 'play' to play the game, 'exit' to quit: > ")
+if command == 'play':
+    hangman()
+elif command == 'exit':
+    exit()
+else:
+    command = input("Type 'play' to play the game, 'exit' to quit: > ")
